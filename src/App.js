@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
+import Home from "./components/Home";
+import OfferOne from "./components/OfferOne";
+import OfferTwo from "./components/OfferTwo";
+import OfferThree from "./components/OfferThree";
+import NotFound from "./components/NotFound";
 
-function App() {
+export default function App() {
+  const [amount, setAmount] = useState();
+  const [displayCoupons, setDisplayCoupons] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Header
+        displayCoupons={displayCoupons}
+        setDisplayCoupons={setDisplayCoupons}
+      />
+      <Routes>
+        <Route
+          index
+          element={
+            <Home
+              amount={amount}
+              setAmount={setAmount}
+              displayCoupons={displayCoupons}
+              setDisplayCoupons={setDisplayCoupons}
+            />
+          }
+        />
+
+        <Route path="offer1" element={<OfferOne amount={amount} />} />
+        <Route path="offer2" element={<OfferTwo amount={amount} />} />
+        <Route path="offer3" element={<OfferThree amount={amount} />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
